@@ -16,6 +16,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import com.example.weather_app.models.WeatherResponse
+import com.example.weather_app.network.WeatherService
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -26,6 +28,12 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.xml.transform.dom.DOMLocator
 
 class MainActivity : AppCompatActivity() {
 
@@ -108,10 +116,34 @@ class MainActivity : AppCompatActivity() {
             }.show()
     }
 
-    private fun getLocationWeatherDetails(){
+    private fun getLocationWeatherDetails(latitude : Double, longitude : Double){
         if(Constants.isNetworkAvailable(this)){
-            Toast.makeText(this@MainActivity, "You have connected to the internet", Toast.LENGTH_SHORT)
-                .show()
+            val retrofit : Retrofit = Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val service : WeatherService = retrofit
+                .create(WeatherService::class.java)
+
+            val listCall : Call<WeatherResponse> = service.getWeather(
+                latitude, longitude, Constants.METRIC_UNIT, Constants.APP_ID
+            )
+            listCall.enqueue(object : Callback<WeatherResponse>{
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    if(response.isSuccessful){
+                        val weatherList : WeatherResponse? = response.body()
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+
+                }
+
+            })
         }else{
             Toast.makeText(this@MainActivity, "No internet connection available", Toast.LENGTH_SHORT)
                 .show()
@@ -126,7 +158,9 @@ class MainActivity : AppCompatActivity() {
 
             val longitude = mLastLocation?.longitude
             Log.i("Current Longitude", "$longitude")
-            getLocationWeatherDetails()
+            if (latitude != null && longitude != null) {
+                getLocationWeatherDetails(latitude, longitude)
+            }
         }
     }
 
