@@ -37,8 +37,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -219,6 +217,7 @@ class MainActivity : AppCompatActivity() {
         mProgressDialog?.dismiss()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUpUI(weatherList : WeatherResponse){
 
         val mainTextView = findViewById<TextView>(R.id.mainTextView)
@@ -245,11 +244,11 @@ class MainActivity : AppCompatActivity() {
         return value
     }
 
-    private fun unixTime(timex: Long): String{
+/*    private fun unixTime(timex: Long): String{
         val date = Date(timex * 1000L)
         val sdf = SimpleDateFormat("HH:mm", Locale.UK)
         sdf.timeZone = TimeZone.getDefault()
         return sdf.format(date)
-    }
+    }*/
 
 }
