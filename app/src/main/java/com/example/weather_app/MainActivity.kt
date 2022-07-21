@@ -30,11 +30,15 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.lightStatusBar
+import com.setFullScreen
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +49,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+
+        setFullScreen(window)
+        lightStatusBar(window, false)
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -217,12 +224,14 @@ class MainActivity : AppCompatActivity() {
         val mainTextView = findViewById<TextView>(R.id.mainTextView)
         val descriptionText = findViewById<TextView>(R.id.descriptionText)
         val textViewDegree = findViewById<TextView>(R.id.textViewDegree)
+        val countryTextView = findViewById<TextView>(R.id.countryTextView)
 
         for(i in weatherList.weather.indices){
             Log.i("Weather Name : ", weatherList.weather.toString())
             mainTextView.text = weatherList.weather[i].main
             descriptionText.text = weatherList.weather[i].description
             textViewDegree.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+            countryTextView.text = weatherList.sys.country
         }
 
     }
@@ -234,6 +243,13 @@ class MainActivity : AppCompatActivity() {
             value = "°F"
         }
         return value
+    }
+
+    private fun unixTime(timex: Long): String{
+        val date = Date(timex * 1000L)
+        val sdf = SimpleDateFormat("HH:mm", Locale.UK)
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
     }
 
 }

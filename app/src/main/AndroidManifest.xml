@@ -18,8 +18,7 @@
         android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Weather_App"
-        tools:targetApi="m">
+        android:theme="@style/Theme.Weather_App">
         <activity
             android:name=".MainActivity"
             android:exported="true">
