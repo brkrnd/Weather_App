@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                     call: Call<WeatherResponse>,
                     response: Response<WeatherResponse>
                 ) {
-                    if(response!!.isSuccessful){
+                    if(response.isSuccessful){
                         hideProgressDialog()
                         val weatherList : WeatherResponse? = response.body()
                         if (weatherList != null) {
