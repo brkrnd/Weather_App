@@ -1,6 +1,7 @@
 package com.example.weather_app
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -37,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    //private var progressDialog : Dialog? = null
+    private var mProgressDialog : Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,13 +130,20 @@ class MainActivity : AppCompatActivity() {
             val listCall : Call<WeatherResponse> = service.getWeather(
                 latitude, longitude, Constants.METRIC_UNIT, Constants.APP_ID
             )
+
+            showCustomProgressDialog()
+
             listCall.enqueue(object : Callback<WeatherResponse>{
                 override fun onResponse(
                     call: Call<WeatherResponse>,
                     response: Response<WeatherResponse>
                 ) {
                     if(response!!.isSuccessful){
+                        hideProgressDialog()
                         val weatherList : WeatherResponse? = response.body()
+                        if (weatherList != null) {
+                            setUpUI(weatherList)
+                        }
                         Log.i("Response Result: ", "$weatherList")
                     } else {
                         when(response.code()){
@@ -151,6 +160,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                    hideProgressDialog()
                     Log.e("Error", t.message.toString())
                 }
 
@@ -189,4 +199,41 @@ class MainActivity : AppCompatActivity() {
         )
 
     }
+
+    private fun showCustomProgressDialog(){
+        mProgressDialog = Dialog(this)
+
+        mProgressDialog!!.setContentView(R.layout.dialog_custom_process)
+
+        mProgressDialog!!.show()
+    }
+
+    private fun hideProgressDialog(){
+        mProgressDialog?.dismiss()
+    }
+
+    private fun setUpUI(weatherList : WeatherResponse){
+
+        val mainTextView = findViewById<TextView>(R.id.mainTextView)
+        val descriptionText = findViewById<TextView>(R.id.descriptionText)
+        val textViewDegree = findViewById<TextView>(R.id.textViewDegree)
+
+        for(i in weatherList.weather.indices){
+            Log.i("Weather Name : ", weatherList.weather.toString())
+            mainTextView.text = weatherList.weather[i].main
+            descriptionText.text = weatherList.weather[i].description
+            textViewDegree.text = weatherList.main.temp.toString() + getUnit(application.resources.configuration.locales.toString())
+        }
+
+    }
+
+    private fun getUnit(value: String): String?{
+        var value = "°C"
+
+        if ("US" == value || "LR" == value || "MM" == value){
+            value = "°F"
+        }
+        return value
+    }
+
 }

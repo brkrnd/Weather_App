@@ -3,8 +3,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
-    android:gravity="center"
+    android:gravity="start"
+    android:orientation="vertical"
     android:background="@drawable/weather_app_main_screen_bg">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/darkest_blue"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_marginTop="96dp"
+        tools:text="Weather"
+        android:textAlignment="center"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/darkest_blue"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingVertical="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/rain">
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/mainTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Rainy"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light2_blue">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/descriptionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="Description"
+                    android:layout_gravity="center"
+                    android:textColor="@color/light2_blue">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/darkest_blue"
+        app:cardCornerRadius="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/rain">
+                </ImageView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textViewDegree"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/light2_blue">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Description"
+                        android:layout_gravity="center"
+                        android:textColor="@color/light2_blue">
+                    </TextView>
+                </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
 </LinearLayout>
