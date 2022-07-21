@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Weather_App</string>
+    <string name="app_name">Weather App</string>
+
+    <string name="please_wait">Please Wait&#8230;</string>
 </resources>

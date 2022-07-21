@@ -11,8 +11,8 @@ interface WeatherService {
     fun getWeather(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
+        @Query("metric") metric: String,
         @Query("appid") appid: String?,
-        appId: String,
     ) : Call<WeatherResponse>
 
 }
