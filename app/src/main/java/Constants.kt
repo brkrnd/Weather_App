@@ -4,7 +4,7 @@ import android.net.NetworkCapabilities
 
 object Constants {
 
-    const val APP_ID : String = "616c785778b5ceb6884793bc06175a11"//API Key
+    const val APP_ID : String = ""//API Key Here
     const val BASE_URL : String = "https://api.openweathermap.org/data/"
     const val METRIC_UNIT : String = "metric"
 
